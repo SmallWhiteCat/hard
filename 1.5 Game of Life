@@ -1,0 +1,30 @@
+class Solution:
+    def gameOfLife(self, board):
+        """
+        :type board: List[List[int]]
+        :rtype: void Do not return anything, modify board in-place instead.
+        """
+        if board == []:
+            return []
+        
+        s1 = [-1, -1, -1, 0, 0, 1, 1, 1]
+        s2 = [-1, 0,  1,  -1,1, -1,0, 1]
+        m = len(board)
+        n = len(board[0])
+        for i in range(m):
+            for j in range(n):
+                live = 0
+                for k in range(8):
+                    live += self.neighbor(board, i+s1[k], j+s2[k], m, n) 
+                if live + board[i][j] == 3 or live == 3:
+                    board[i][j] |= 2
+         
+        for i in range(m):
+            for j in range(n):
+                board[i][j] >>= 1
+                
+        
+    def neighbor(self, board, i, j, m, n):
+        if i < 0 or j < 0 or i >= m or j >= n:
+            return 0
+        return board[i][j] & 1 #只判断低位的0、1，相应返回0、1
