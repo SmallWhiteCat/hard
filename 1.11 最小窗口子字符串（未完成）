@@ -1,0 +1,33 @@
+class Solution:
+    def minWindow(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: str
+        """
+        if len(s) == 0 or len(s) < len(t):
+            return ""
+
+        dic = {}
+        dic_res = {} #key:满足的窗口的最右侧的索引,value:窗口长度
+        for i in range(len(s)):
+            temp = s[i]
+            if temp in t and temp not in dic:
+                dic[temp] = i
+            elif temp in t:    
+                n, m = max(dic.values()), min(dic.values())
+                dic_res[n] = n-m+1
+                dic[temp] = i  
+                
+        if len(dic) == len(t):      
+            n, m = max(dic.values()), min(dic.values())
+            dic_res[n] = n-m+1
+            # print(dic_res)
+            l = min(dic_res.values())
+            r = self.get_keys(dic_res, l)
+            return s[r[0]-l+1:r[0]+1]
+        else:
+            return ""
+   
+    def get_keys(self, dic, value): #return key
+        return [k for k,v in dic.items() if v==value]   
