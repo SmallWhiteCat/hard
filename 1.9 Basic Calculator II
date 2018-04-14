@@ -1,0 +1,46 @@
+class Solution:
+    def calculate(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if len(s) == 0:
+            return 1
+        stack, char, temp = [], [], []
+        res, k = 0, 0
+        for i in s:     # 保存多位数
+            if i in '+-*/':
+                char.append(i)
+                stack.append(int(''.join(temp)))
+                temp = []
+            elif i in '0123456789':
+                temp.append(i)
+        stack.append(int(''.join(temp)))
+        
+        for i in range(len(char)):
+            if char[k] in '*/':
+                num1 = stack.pop(k)
+                num2 = stack[k]
+                if char[k] == '*':
+                    stack[k] = num1 * num2
+                else:
+                    stack[k] = num1 // num2
+                char.pop(k)
+            else:
+                k += 1
+                
+        f = stack[0]
+        k = 0
+        if not stack[1:]:
+            return f  
+        for i in stack[1:]:
+            # n = stack.pop(0)         
+            c = char[k]         
+            if c == '+':
+                res = f + i
+            else:
+                res = f - i
+            f = res
+            k += 1
+            
+        return res                    
