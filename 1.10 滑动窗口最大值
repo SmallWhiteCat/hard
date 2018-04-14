@@ -1,0 +1,25 @@
+class Solution:
+    def maxSlidingWindow(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        if len(nums) == 0:
+            return []
+
+        maxn = max(nums[:k])
+        r = nums.index(maxn)
+        arr = [maxn]
+
+        for i in range(k, len(nums)):
+            if nums[i] > maxn:
+                maxn = nums[i]
+                r = i + k -1    #最大值的最右侧有效位置
+            if i > r:
+                temp = nums[i-k+1:i+1]
+                maxn = max(temp) #遍历 i-k+1...i 共k个数,取最大值
+                r = temp.index(maxn)
+            arr.append(maxn)
+            
+        return arr   
