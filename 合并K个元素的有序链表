@@ -1,0 +1,47 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+import heapq 
+
+class Solution:
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        lists = [i for i in lists if i]
+        if len(lists) == 0:
+            return []
+        
+        arr = []    # k个有序列表的第一个元素值的数组
+        nodes = []  # k个有序列表的第一个节点数组
+        q = []
+        for i in range(len(lists)):
+            temp = lists[i]
+            nodes.append(lists[i])
+            while temp:
+                heapq.heappush(q, (temp.val, i))
+                temp = temp.next
+
+        INT_MAX = 0x7fffff
+        head = ListNode(0)
+        p = head
+        temp = []
+        while q:
+            # print(q)
+            temp = heapq.heappop(q)[1]
+            node = nodes[temp]      #最小值对应链表的当前节点
+            
+            p.next = node      #最小节点添加到指针 p 的最后一个节点  
+            node = node.next          
+            p = p.next    
+            p.next = None
+                
+            if node == None:
+                continue
+            nodes[temp] = node
+            
+        return head.next
