@@ -7,8 +7,7 @@ class Solution:
         """
         if len(s) == 0 :
             return ""
-        print(s, t, len(s), len(t))
-        if len(list(s)) < len(list(t)):
+        if len(s) < len(t):
             return ""
         dic = {}
         for i in s:
@@ -19,12 +18,13 @@ class Solution:
                 dic[i] = 1
             else:
                 dic[i] += 1
-                
+        print(dic)    
         l, r = 0, 0
         head = 0
-        n = len(s) #窗口子串的长度
+        n = len(s)+1 
         m = len(t)
         counter = len(t)
+        print(counter)
         while r < len(s):
             temp = s[r]
             if dic[temp] > 0:
@@ -41,5 +41,7 @@ class Solution:
                     counter += 1
                 dic[temp] += 1
                 l += 1
-                
+        print(head, n) 
+        if n == len(s)+1:
+            return ""
         return s[head:head+n]  
