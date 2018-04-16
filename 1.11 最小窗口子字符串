@@ -1,0 +1,45 @@
+class Solution:
+    def minWindow(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: str
+        """
+        if len(s) == 0 :
+            return ""
+        print(s, t, len(s), len(t))
+        if len(list(s)) < len(list(t)):
+            return ""
+        dic = {}
+        for i in s:
+            if i not in dic:
+                dic[i] = 0
+        for i in t:
+            if i not in dic:
+                dic[i] = 1
+            else:
+                dic[i] += 1
+                
+        l, r = 0, 0
+        head = 0
+        n = len(s) #窗口子串的长度
+        m = len(t)
+        counter = len(t)
+        while r < len(s):
+            temp = s[r]
+            if dic[temp] > 0:
+                counter -= 1
+            dic[temp] -= 1
+            r += 1         #r = 窗口子串最右侧的索引 +1
+            
+            while counter == 0:
+                if r-l < n:
+                    head = l
+                    n = r - head      
+                temp = s[l]
+                if dic[temp] == 0:
+                    counter += 1
+                dic[temp] += 1
+                l += 1
+                
+        return s[head:head+n]  
