@@ -15,7 +15,7 @@ class Solution:
                 if board[i][j] == 'O':
                     print(i,j)
                     s = set()
-                    board, judge, s = self.bfs(board, n, m, i, j, judge, s)
+                    board, judge, s = self.dfs(board, n, m, i, j, judge, s)
                     if judge == 0:
                         st |= s
 
@@ -24,7 +24,7 @@ class Solution:
         for i in st:
             board[i[0]][i[1]] = 'O'
                     
-    def bfs(self, board, n, m, i, j, judge, s):
+    def dfs(self, board, n, m, i, j, judge, s):
         # if judge == 1 and i==0 or i==n-1 or j==0 or j==m-1:
         #     judge = 0
         # print(i, j)
@@ -34,12 +34,12 @@ class Solution:
         
         s.add((i, j))
         if i>0 and board[i-1][j] == 'O':
-            self.bfs(board, n, m, i-1, j, judge, s)
+            self.dfs(board, n, m, i-1, j, judge, s)
         if j>0 and board[i][j-1] == 'O':
-            self.bfs(board, n, m, i, j-1, judge, s)
+            self.dfs(board, n, m, i, j-1, judge, s)
         if j<m-1 and board[i][j+1] == 'O':
-            self.bfs(board, n, m, i, j+1, judge, s)
+            self.dfs(board, n, m, i, j+1, judge, s)
         if i<n-1 and board[i+1][j] == 'O':
-            self.bfs(board, n, m, i+1, j, judge, s)
+            self.dfs(board, n, m, i+1, j, judge, s)
         
         return board, judge, s
