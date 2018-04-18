@@ -1,0 +1,45 @@
+class Solution:
+    def solve(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: void Do not return anything, modify board in-place instead.
+        """
+        if not board:
+            return
+        n, m = len(board), len(board[0])
+        print(n, m)
+        st = set()
+        for i in range(n):
+            for j in range(m):
+                judge = 1
+                if board[i][j] == 'O':
+                    print(i,j)
+                    s = set()
+                    board, judge, s = self.bfs(board, n, m, i, j, judge, s)
+                    if judge == 0:
+                        st |= s
+
+        print(st)
+        # print('st', st)
+        for i in st:
+            board[i[0]][i[1]] = 'O'
+                    
+    def bfs(self, board, n, m, i, j, judge, s):
+        # if judge == 1 and i==0 or i==n-1 or j==0 or j==m-1:
+        #     judge = 0
+        # print(i, j)
+        # print(board)
+        # print(i, j)
+        board[i][j] = 'X'
+        
+        s.add((i, j))
+        if i>0 and board[i-1][j] == 'O':
+            self.bfs(board, n, m, i-1, j, judge, s)
+        if j>0 and board[i][j-1] == 'O':
+            self.bfs(board, n, m, i, j-1, judge, s)
+        if j<m-1 and board[i][j+1] == 'O':
+            self.bfs(board, n, m, i, j+1, judge, s)
+        if i<n-1 and board[i+1][j] == 'O':
+            self.bfs(board, n, m, i+1, j, judge, s)
+        
+        return board, judge, s
