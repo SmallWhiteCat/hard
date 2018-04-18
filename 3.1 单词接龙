@@ -1,0 +1,35 @@
+class Solution:
+    def ladderLength(self, beginWord, endWord, wordList):
+        """
+        :type beginWord: str
+        :type endWord: str
+        :type wordList: List[str]
+        :rtype: int
+        """
+        if len(beginWord) == 0:
+            return 0
+        if beginWord == endWord:
+            return 2
+
+        arr = []
+        arr.append((beginWord, 1))
+        dic = {}
+        for i in range(len(wordList)):
+            temp = wordList[i]
+            dic[temp] = 1
+            
+        while arr:
+            temp = arr.pop(0)
+            word, wdlen = temp[0], temp[1]
+            if word == endWord:
+                return wdlen
+            for sepa in range(len(beginWord)):
+                left, right = word[:sepa], word[sepa+1:]            
+                for i in 'abcdefghijklmnopqrstuvwxyz':
+                    if i != word[sepa]:
+                        nxword = left + i + right
+                        if nxword in dic:
+                            arr.append((nxword, wdlen+1))
+                            dic.pop(nxword)
+                
+        return 0
