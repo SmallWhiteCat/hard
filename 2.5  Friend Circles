@@ -1,0 +1,27 @@
+class Solution:
+    def findCircleNum(self, M):
+        """
+        :type M: List[List[int]]
+        :rtype: int
+        """
+        if len(M) == 0:
+            return 0
+        
+        ss = set()
+        s = set()
+        arr = []
+        for i in range(len(M)):
+            if i not in ss:
+                s = {i}
+                ss.add(i)
+                self.dfs(M, i, s, ss)
+                arr.append(s)
+        print(arr)
+        return len(arr)
+                    
+    def dfs(self, M, i, s, ss):
+        for j in range(len(M[0])):
+            if M[i][j] == 1 and j not in ss:
+                ss.add(j)
+                s.add(j)
+                self.dfs(M, j, s, ss)
