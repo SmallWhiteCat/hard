@@ -1,0 +1,39 @@
+class Solution:
+    def findOrder(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: List[int]
+        """
+        if not numCourses and not prerequisites:
+            return []
+        
+        adj = [[] for i in range(numCourses)]
+        indegree = [0]*numCourses
+        arr = []
+        
+        for i in range(len(prerequisites)):
+            temp = prerequisites[i]
+            adj[temp[1]].append(temp[0])
+            indegree[temp[0]] += 1
+            
+        zerodg = []
+        [zerodg.append(i) for i in range(numCourses) if indegree[i]==0]
+        k = 0
+        while zerodg:
+            temp = zerodg.pop(0)
+            
+            arr.append(temp)
+            for i in range(len(adj[temp])):
+                t = adj[temp][i]
+                indegree[t] -= 1
+                if indegree[t] == 0:
+                    zerodg.append(t)
+            k += 1
+            
+        # print(k)
+        if k == numCourses:
+            return arr
+        return []
+                    
+                    
