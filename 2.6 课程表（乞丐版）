@@ -1,0 +1,39 @@
+class Solution:
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        """
+        if numCourses == 0:
+            return True
+        
+        dic = {i:0 for i in range(numCourses)}
+
+        for i in range(len(prerequisites)):
+            temp = prerequisites[i][0]
+            dic[temp] += 1
+            
+        arr = []
+        for i in range(len(prerequisites)):
+            temp = prerequisites[i]
+            if dic[temp[1]] == 0:
+                dic[temp[0]] -= 1
+            else:
+                arr.append((temp[0], temp[1]))
+        
+        while arr:
+            l = len(arr)
+            arrnext = []
+            for i in range(l):
+                temp = arr.pop(0)
+                if dic[temp[1]] == 0:
+                    dic[temp[0]] -= 1
+                else:
+                    arrnext.append(temp)
+
+            if len(arrnext) == l:
+                return False
+            arr = arrnext
+        return True
+            
