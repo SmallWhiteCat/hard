@@ -1,0 +1,26 @@
+class Solution:
+    def countSmaller(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        if not nums:
+            return []
+        nums = list(set(nums))
+        arr = [nums[-1]]    #有序列表
+        res = [0]    #返回列表
+        for i in range(len(nums)-2, -1, -1):
+            left = 0
+            right = len(res) - 1
+            while left <= right:
+                mid = (left + right) // 2
+                if arr[mid] > nums[i]:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            arr.insert(left, nums[i])
+            res.append(arr.index(nums[i]))
+        # print(arr, res)
+        return res[::-1]
+
+            
