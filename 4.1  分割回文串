@@ -1,0 +1,21 @@
+class Solution:
+    def partition(self, s):
+        """
+        :type s: str
+        :rtype: List[List[str]]
+        """
+        
+        res = [] #所有可能方案
+        t = []
+        self.dfs(s, res, t)
+        return res
+        
+    def dfs(self, s, res, t):
+        if len(s) == 0:
+            res.append(t)
+            return False
+        
+        for i in range(1, len(s)+1):
+            temp = s[:i]
+            if temp == temp[::-1]:
+                self.dfs(s[i:], res, t+[temp])
