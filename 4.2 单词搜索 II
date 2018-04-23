@@ -1,0 +1,95 @@
+class Node:
+    def __init__(self):
+        self.children = {}
+        self.isWord = False
+        
+class Trie:
+    def __init__(self):
+        self.root = Node()
+        
+    def insert(self, word):
+        current = self.root
+        for i in word:
+            if i not in current.children:
+                child = Node()
+                current.children[i] = child
+            current = current.children[i]
+        current.isWord = True
+        
+    def delete(self, word):
+        current = self.root
+        temp = []
+        for i in word:
+            if i not in current.children:
+                return 
+            temp.append((current, i))
+            current = current.children[i]
+      
+        if not current.isWord:
+            return
+        if len(current.children):
+            current.isWord = False
+            return
+        for i in range(len(temp)-1, -1, -1):
+            t = temp[i]
+            del t[0].children[t[1]]
+            if t[0].isWord or len(t[0].children):
+                break
+        return True        
+                
+class Solution:
+    def findWords(self, board, words):
+        """
+        :type board: List[List[str]]
+        :type words: List[str]
+        :rtype: List[str]
+        """
+        if not words or not board or not board[0]:
+            return []
+        m, n = len(board), len(board[0])
+        self.board = board
+        self.trie = Trie()
+        for word in words:
+            self.trie.insert(word)
+        a = self.trie.root
+        # print(a.children['a'].children['a'].children['b'].children)
+        self.res = []
+        visit = [[False]*n for i in range(m)]
+        for i in range(m):
+            for j in range(n):
+                self.dfs(self.board[i][j], i, j, self.trie.root, visit)
+                
+        return self.res
+    
+    def dfs(self, letter, i, j, current, visit):
+        if i<0 or i>= len(self.board) or j<0 or j>=len(self.board[0]) or visit[i][j]:
+            return False
+        # print('p' in current.children)
+        # print(current.children)
+        if self.board[i][j] not in current.children:
+            return False
+        
+        current = current.children[self.board[i][j]]
+        # if len(letter) == 28:
+        # print(letter)
+        if current.isWord == True:
+            if len(letter) == 28:
+                print(letter)
+            self.res.append(letter)
+            print(self.res)
+            self.trie.delete(letter)
+            # return True
+        visit[i][j] = True    
+        if i > 0:
+            self.dfs(letter+self.board[i-1][j], i-1, j, current, visit)
+        if i < len(self.board)-1:
+            self.dfs(letter+self.board[i+1][j], i+1, j, current, visit)
+        if j > 0:
+            self.dfs(letter+self.board[i][j-1], i, j-1, current, visit)
+        if j < len(self.board[0])-1:
+            self.dfs(letter+self.board[i][j+1], i, j+1, current, visit)
+        visit[i][j] = False
+        
+            
+        
+        
