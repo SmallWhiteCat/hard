@@ -1,0 +1,36 @@
+class Solution:
+    def removeInvalidParentheses(self, s):
+        """
+        :type s: str
+        :rtype: List[str]
+        """
+        self.had = set([s])
+        # res = self.dfs(s)        
+        return self.dfs(s)  
+        
+    def dfs(self, s):
+        k = self.cal(s)
+        # print(k)
+        if k == 0:
+            return [s]
+        temp = []
+        for i in range(len(s)):
+            if s[i] in '()':
+                ss = s[:i] + s[i+1:]
+                # print(ss)
+                if ss not in self.had and self.cal(ss) < k:
+                    self.had.add(ss)
+                    temp.extend(self.dfs(ss))
+                    # print(temp)
+        return temp        
+        
+    def cal(self, s):
+        left = 0
+        right = 0
+        for i in s:
+            left += {'(': 1, ')': -1}.get(i, 0)
+            if left == -1:
+                right += 1
+            left = max(left, 0)
+            
+        return left + right
