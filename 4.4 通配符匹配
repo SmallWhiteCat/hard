@@ -1,0 +1,40 @@
+class Solution:
+    def isMatch(self, s, p):
+        """
+        :type s: str
+        :type p: str
+        :rtype: bool
+        """
+        if not s and not p:
+            return True
+
+        indexs = 0
+        indexp = 0
+        marks = -1
+        markp = -1
+        while indexs < len(s):
+            print(indexs, indexp)
+            if indexp < len(p) and s[indexs] == p[indexp]:
+                indexs += 1
+                indexp += 1  
+            elif indexp < len(p) and p[indexp] == '?':
+                indexs += 1
+                indexp += 1
+            elif indexp < len(p) and p[indexp] == '*':
+                marks = indexs
+                indexp += 1
+                markp = indexp
+            elif markp != -1:
+                marks += + 1
+                indexs = marks
+                indexp = markp 
+            else:
+                return False
+        temp = p[indexp:]
+        print(temp, set(temp))
+        # print()
+        if temp and set(temp) != {'*'}:
+            return False
+        return True
+            
+            
