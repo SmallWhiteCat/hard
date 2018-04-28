@@ -3,3 +3,11 @@ def findkey(self, dic, value):
     for key, val in dic.items():
         if val == value:
             return key
+
+# 二分法   nums中查找某个数
+while left <= right:        
+    mid = left + right >> 1 
+    if nums[i] < nums[mid]:
+        left = mid + 1
+    else:
+        right = mid - 1
