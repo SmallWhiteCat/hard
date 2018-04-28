@@ -1,0 +1,5 @@
+# 找第一个等于value的key
+def findkey(self, dic, value):  
+    for key, val in dic.items():
+        if val == value:
+            return key
