@@ -1,0 +1,31 @@
+class Solution:
+    def kthSmallest(self, matrix, k):
+        """
+        :type matrix: List[List[int]]
+        :type k: int
+        :rtype: int
+        """
+        if not matrix:
+            return 0
+        n = len(matrix)-1
+        i, j = 0, 0
+        temp = {} 
+        visited = {}
+        while k > 1: 
+            if (i+1, j) not in visited and i<n:
+                temp[(i+1, j)] = matrix[i+1][j]
+                
+            if (i, j+1) not in visited and j<n:
+                temp[(i, j+1)] = matrix[i][j+1]
+                
+            
+            nextk = min(temp.values())
+            (i, j) = self.findkey(temp, nextk)
+            temp.pop((i, j))
+            visited[(i, j)] = 1
+            k -= 1
+        return matrix[i][j]
+    def findkey(self, dic, value):
+        for key, val in dic.items():
+            if val == value:
+                return key
