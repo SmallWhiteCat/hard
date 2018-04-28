@@ -1,0 +1,28 @@
+class Solution:
+    def wiggleSort(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """
+        mid = sorted(nums)[len(nums)//2]
+        # arr = []
+        arr = [(2*i+1)%(len(nums)|1) for i in range(len(nums))]
+        high = 0    #大于两侧的数的索引
+        index = 0   #按arr排序的索引
+        last = len(nums)-1
+        
+        while index <= last:
+            t = arr[index]
+            h = arr[high]
+            l = arr[last]
+            if nums[t] > mid:
+                nums[h], nums[t] = nums[t], nums[h]
+                high += 1
+                index += 1
+            elif nums[t] < mid:
+                nums[l], nums[t] = nums[t], nums[l]
+                last -= 1
+            else:
+                index += 1
+        
+            
