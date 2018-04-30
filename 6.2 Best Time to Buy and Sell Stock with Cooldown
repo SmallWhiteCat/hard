@@ -1,0 +1,21 @@
+class Solution:
+    def maxProfit(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+        if len(prices) < 2:
+            return 0
+        
+        allowtobuy = [0]*len(prices)#允许买状态，刚过冷冻期或未找到感兴趣股票   的最大利润
+        havestock = [0]*len(prices)
+        havestock[0] = -prices[0]      #持股状态，可能前一天或前几天买入   的最大利润
+        sellstock = [0]*len(prices)
+        sellstock[0] = -1              #前一天出售股票    的最大利润
+        for i in range(1, len(prices)):
+            allowtobuy[i] = max(allowtobuy[i-1], sellstock[i-1])
+            havestock[i] = max(havestock[i-1], allowtobuy[i-1]-prices[i])
+            sellstock[i] = havestock[i-1] + prices[i]
+            
+        print(allowtobuy[-1], havestock[-1], sellstock[-1])
+        return max(allowtobuy[-1], havestock[-1], sellstock[-1])
