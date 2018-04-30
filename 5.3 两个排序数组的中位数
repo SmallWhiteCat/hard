@@ -1,0 +1,35 @@
+class Solution:
+    def findMedianSortedArrays(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: float
+        """
+        if not nums1 and not nums2:
+            return 0.0
+        t = len(nums1) + len(nums2)
+        if t % 2 == 1:
+            return self.Ksmallst(nums1, nums2, t//2+1)
+        a = self.Ksmallst(nums1, nums2, t//2)
+        print(a)
+        return (self.Ksmallst(nums1, nums2, t//2)+self.Ksmallst(nums1, nums2, t//2+1)) / 2
+    
+    def Ksmallst(self, nums1, nums2, k):
+        # print(nums1, nums2)
+        if len(nums1) > len(nums2):
+            nums1, nums2 = nums2, nums1
+        # print(not nums1)
+        if not nums1:
+            # print('nums2')
+            return nums2[k-1]
+        if k == 1:
+            return min(nums1[0], nums2[0])
+        k1 = min(len(nums1), k//2)
+        k2 = k - k1
+        if nums1[k1-1] < nums2[k2-1]:
+            # print(nums1[k1:], nums2, k2)
+            return self.Ksmallst(nums1[k1:], nums2, k2)
+        else:
+            return self.Ksmallst(nums1, nums2[k2:], k1)
+
+        
