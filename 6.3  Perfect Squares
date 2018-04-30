@@ -1,0 +1,22 @@
+class Solution:
+    def numSquares(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        while n % 4 == 0:
+            n //= 4
+        if n % 8 == 7:
+            return 4
+        
+        k = 0
+        while k*k <= n:
+            re = int(math.sqrt(n - k*k))
+            print(re, k)
+            if k*k + re*re == n:
+                if k and re:
+                    return 2
+                return 1
+            k += 1
+            
+        return 3
