@@ -1,0 +1,22 @@
+class Solution:
+    def trap(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
+        left = []
+        maxleft = 0
+        for i in range(len(height)):
+            if height[i] > maxleft:
+                maxleft = height[i]
+            left.append(maxleft)
+            
+        res = 0
+        maxright = 0
+        for i in range(len(height)-1, -1, -1):
+            if height[i] > maxright:
+                maxright = height[i]
+            t = min(left[i], maxright) - height[i]
+            if t > 0:
+                res += t
+        return res
