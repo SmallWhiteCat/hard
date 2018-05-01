@@ -1,0 +1,37 @@
+class Solution:
+    def wordBreak(self, s, wordDict):
+        """
+        :type s: str
+        :type wordDict: List[str]
+        :rtype: List[str]
+        """
+        if not s or not wordDict:
+            return []
+        
+        if self.exist(s, wordDict):
+            result = []
+            cur = ''
+            self.dfs(s, wordDict, cur, result)
+            return result
+        return []
+    def exist(self, s, wordDict):
+        dp = [0]
+        for i in range(1, len(s)+1):
+            for j in range(len(dp)-1, -1, -1):
+                if s[dp[j]:i] in wordDict:
+                    dp.append(i)
+                    break
+        # print(dp, len(s))
+        return dp[-1] == len(s)
+        
+    def dfs(self, s, words, cur, result):
+        if len(s) == 0:
+            cur = cur.rstrip()
+            result.append(cur)
+            return
+        for i in range(1, len(s)+1):
+            if s[:i] in words:
+                self.dfs(s[i:], words, cur+s[:i]+' ', result)
+               
+                    
+        
