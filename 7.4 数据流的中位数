@@ -1,0 +1,44 @@
+class MedianFinder:
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.arr = []
+        self.key = 0
+        
+
+    def addNum(self, num):
+        """
+        :type num: int
+        :rtype: void
+        """
+        l = 0
+        r = len(self.arr)
+        while l < r:
+            mid = (l+r) // 2
+            if self.arr[mid] < num:
+                l = mid + 1
+            else:
+                r = mid
+        self.arr.insert(l, num)
+        if self.key == 1:
+            self.key = 0
+        else:
+            self.key = 1
+
+    def findMedian(self):
+        """
+        :rtype: float
+        """
+        t = len(self.arr)
+        if self.key == 1:
+            return self.arr[t//2] * 1.0
+        return (self.arr[t//2-1] + self.arr[t//2]) * 0.5
+        
+
+
+# Your MedianFinder object will be instantiated and called as such:
+# obj = MedianFinder()
+# obj.addNum(num)
+# param_2 = obj.findMedian()
