@@ -1,0 +1,54 @@
+# Definition for a point.
+# class Point:
+#     def __init__(self, a=0, b=0):
+#         self.x = a
+#         self.y = b
+import numpy as np
+class Solution:
+    def maxPoints(self, points):
+        """
+        :type points: List[Point]
+        :rtype: int
+        """
+        if not points:
+            return 0
+        if len(points) == 1:
+            return 1
+        
+        res = 0
+        for i in range(len(points)):
+            dup = 0
+            cur_res = 1
+            slope = {}
+            vert = 0
+            for j in range(i+1, len(points)):   
+                # if i != j:
+                px = points[i].x - points[j].x
+                py = points[i].y - points[j].y
+                if not px and not py:
+                    dup += 1
+                elif not px:
+                    if vert == 0:
+                        vert = 2
+                    else:
+                        vert += 1
+                    cur_res = max(cur_res, vert)
+                    # print(cur_res)
+                else:
+                    cur = (np.longdouble(1) * py) / px
+                    # print(cur)
+                    if cur not in slope:
+                        slope[cur] = 2
+                    else:
+                        slope[cur] += 1
+                    # print(res, cur_res, dup)
+                    # print(slope)
+                    cur_res = max(cur_res, slope[cur])
+                    
+            res = max(res, cur_res+dup)
+        
+        # print(res)
+        return res
+        # while i*(i-1) != t*2:
+        #     i += 1
+        # return i
