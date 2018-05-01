@@ -1,0 +1,29 @@
+class Solution:
+    def reconstructQueue(self, people):
+        """
+        :type people: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        dic = {}
+        res = []
+        
+        for i in range(len(people)):
+            cur = people[i]
+            if people[i][0] not in dic:
+                dic[cur[0]] = [cur[1]]
+            else:
+                dic[cur[0]].append(cur[1])
+        
+        while dic:
+            m = max(dic.keys())
+            temp = dic.pop(m)
+            # print(m, temp)
+            temp.sort()
+            for i in temp:
+                res.insert(i, [m, i])
+                
+        # print(res)
+        return res
+        
+        
+        
