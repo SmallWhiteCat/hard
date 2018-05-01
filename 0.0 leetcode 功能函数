@@ -94,3 +94,13 @@ class Trie:
                 return False
             current = current.children[i]
         return True
+# 有序列表中插入一个数，认为有序列表
+def insert(nums, num)
+    l = 0
+    r = len(nums)
+    while l < r:
+        mid = (l+r) // 2
+        if self.arr[mid] < num:
+            l = mid + 1
+        else:
+                r = mid
