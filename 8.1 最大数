@@ -1,0 +1,26 @@
+class Solution:
+    def largestNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: str
+        """
+        if sum(nums) == 0:
+            return '0'
+        for i in range(len(nums)):
+            nums[i] = str(nums[i])
+        
+        arr = []
+        
+        for i in range(len(nums)):
+            l = 0
+            r = len(arr) 
+            while l < r:
+                mid = (l+r) // 2
+                if arr[mid]+nums[i] > nums[i]+arr[mid]:
+                    l = mid + 1
+                else:
+                    r = mid
+            arr.insert(l, nums[i])
+            # print(arr)
+        res = ''.join(arr)
+        return res 
