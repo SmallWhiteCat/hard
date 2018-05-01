@@ -1,0 +1,22 @@
+class Solution:
+    def maxCoins(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if not nums:
+            return 0
+        l = len(nums) + 2
+        dp = [[0]*l for i in range(l)]
+        nums.insert(0, 1)
+        nums.append(1)
+        for w in range(2, l):       # 窗口长度，从2到l
+            for left in range(l-w): # 左指针
+                right = left + w    # 右指针
+                for p in range(left+1, right):  # 遍历左、右指针（不包含left、right）间的元素
+                    # print(left, right)
+                    dp[left][right] = max(dp[left][right], \
+                                         nums[left]*nums[p]*nums[right]+dp[left][p]+dp[p][right])   # 较大的w窗口会用到较小的w窗口求出的结果
+        return dp[0][-1]
+            
+        
